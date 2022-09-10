@@ -74,7 +74,8 @@
     function mouseUpHandler(e) {
         const xDiff = startX - e.x;
         const yDiff = startY - e.y;
-        console.log(xDiff, yDiff);
+        const p = new Point(e.x, e.y, xDiff, yDiff, "#ff0000");
+        points.push(p);
     }
 
     canvas.addEventListener("mousedown", mouseDownHandler);
