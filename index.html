@@ -30,6 +30,9 @@
     function drawNextDot () {
         ctx.fillStyle = "#ff0000";
         ctx.fillRect(x, y, 1, 1);
+        if (x + xIncrement < 0) {
+            xIncrement = xIncrement * -1;
+        }
         if (x + xIncrement >= canvasWidth) {
             xIncrement = xIncrement * -1;
         }
