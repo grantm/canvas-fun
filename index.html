@@ -63,11 +63,22 @@
 
     nextStep();
 
+    let startX = null;
+    let startY = null;
+
     function mouseDownHandler(e) {
-        console.log(e);
+        startX = e.x;
+        startY = e.y;
+    }
+
+    function mouseUpHandler(e) {
+        const xDiff = startX - e.x;
+        const yDiff = startY - e.y;
+        console.log(xDiff, yDiff);
     }
 
     canvas.addEventListener("mousedown", mouseDownHandler);
+    canvas.addEventListener("mouseup", mouseUpHandler);
 
   </script>
 
