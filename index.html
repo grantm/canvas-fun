@@ -72,8 +72,8 @@
     }
 
     function mouseUpHandler(e) {
-        const xDiff = startX - e.x;
-        const yDiff = startY - e.y;
+        const xDiff = (startX - e.x) / 7;
+        const yDiff = (startY - e.y) / 7;
         const p = new Point(e.x, e.y, xDiff, yDiff, "#ff0000");
         points.push(p);
     }
