@@ -22,8 +22,19 @@
     ctx.fillStyle = "#000000";
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-    ctx.fillStyle = "#ff0000";
-    ctx.fillRect(200, 100, 1, 1);
+    let x = 200;
+    let y = 100;
+
+    function drawNextDot () {
+        ctx.fillStyle = "#ff0000";
+        ctx.fillRect(x, y, 1, 1);
+        x = x + 1;
+        y = y + 1;
+    }
+
+    drawNextDot();
+    drawNextDot();
+    drawNextDot();
 
   </script>
 
