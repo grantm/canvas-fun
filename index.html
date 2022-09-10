@@ -46,7 +46,12 @@
         y = y + yIncrement;
     }
 
-    setInterval(drawNextDot, 10);
+    function nextStep() {
+        drawNextDot();
+        window.requestAnimationFrame(nextStep);
+    }
+
+    nextStep();
 
   </script>
 
