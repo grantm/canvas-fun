@@ -31,7 +31,7 @@
         ctx.fillStyle = "#ff0000";
         ctx.fillRect(x, y, 1, 1);
         x = x + xIncrement;
-        if (y + yIncrement > canvasHeight) {
+        if (y + yIncrement >= canvasHeight) {
             yIncrement = yIncrement * -1;
         }
         y = y + yIncrement;
