@@ -6,15 +6,21 @@
 </head>
 <body>
 
-  <canvas id="app-canvas" width="400" height="200">
+  <canvas id="app-canvas">
 
   <script type="application/javascript">
 
+    const canvasWidth = 400;
+    const canvasHeight = 200;
+
     const canvas = document.getElementById("app-canvas");
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+
     const ctx = canvas.getContext("2d");
 
     ctx.fillStyle = "#000000";
-    ctx.fillRect(0, 0, 400, 200);
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
   </script>
 
