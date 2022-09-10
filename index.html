@@ -24,12 +24,17 @@
 
     let x = 200;
     let y = 100;
+    let xIncrement = 1;
+    let yIncrement = 1;
 
     function drawNextDot () {
         ctx.fillStyle = "#ff0000";
         ctx.fillRect(x, y, 1, 1);
-        x = x + 1;
-        y = y + 1;
+        x = x + xIncrement;
+        if (y + yIncrement > canvasHeight) {
+            yIncrement = yIncrement * -1;
+        }
+        y = y + yIncrement;
     }
 
     function keyDownHandler(e) {
