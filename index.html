@@ -52,10 +52,12 @@
 
     }
 
-    const p = new Point(70, 150, 2, 5, "#ff0000");
+    const p1 = new Point(70, 150, 2, 5, "#ff0000");
+    const p2 = new Point(70, 150, -8, -3, "#ffff00");
 
     function nextStep() {
-        p.drawNextDot();
+        p1.drawNextDot();
+        p2.drawNextDot();
         window.requestAnimationFrame(nextStep);
     }
 
