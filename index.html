@@ -4,6 +4,9 @@
   <meta charset="utf-8">
   <title>Fun with HTML Canvas</title>
   <style type="text/css">
+    html {
+      height: 100%;
+    }
     body {
       margin: 0;
       padding: 0;
@@ -16,8 +19,9 @@
 
   <script type="application/javascript">
 
-    const canvasWidth = 400;
-    const canvasHeight = 200;
+    const rect = window.document.documentElement.getBoundingClientRect();
+    const canvasWidth = rect.width;
+    const canvasHeight = rect.height;
 
     const canvas = document.getElementById("app-canvas");
     canvas.width = canvasWidth;
