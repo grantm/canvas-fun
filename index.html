@@ -127,17 +127,21 @@
                 this.ctx.stroke();
                 this.trail.push(path);
                 if (this.trail.length > this.maxTrailLength) {
-                    const lastPath = this.trail.shift();
-                    this.ctx.lineWidth = 2;
-                    this.ctx.strokeStyle = "#000000";
-                    this.ctx.beginPath();
-                    this.ctx.moveTo(lastPath[0].x, lastPath[0].y);
-                    lastPath.forEach(p => {
-                        this.ctx.lineTo(p.x, p.y);
-                    });
-                    this.ctx.stroke();
+                    this.eraseLastLine();
                 }
             }
+        }
+
+        eraseLastLine() {
+            const lastPath = this.trail.shift();
+            this.ctx.lineWidth = 2;
+            this.ctx.strokeStyle = "#000000";
+            this.ctx.beginPath();
+            this.ctx.moveTo(lastPath[0].x, lastPath[0].y);
+            lastPath.forEach(p => {
+                this.ctx.lineTo(p.x, p.y);
+            });
+            this.ctx.stroke();
         }
 
     }
