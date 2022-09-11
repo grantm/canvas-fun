@@ -37,7 +37,9 @@
     drawNextDot();
 
     function keyDownHandler(e) {
-        console.log(e);
+        if (e.key === "n") {
+            drawNextDot();
+        }
     }
 
     window.addEventListener("keydown", keyDownHandler);
