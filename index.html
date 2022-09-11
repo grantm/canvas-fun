@@ -44,6 +44,15 @@
         drawNextDot () {
             ctx.fillStyle = this.color;
             ctx.fillRect(this.x, this.y, 2, 2);
+            this.nextStep();
+        }
+
+        nextStep () {
+            this.incrementX();
+            this.incrementY();
+        }
+
+        incrementX () {
             if (this.x + this.xIncrement < 0) {
                 this.xIncrement = this.xIncrement * -1;
             }
@@ -51,6 +60,9 @@
                 this.xIncrement = this.xIncrement * -1;
             }
             this.x = this.x + this.xIncrement;
+        }
+
+        incrementY () {
             if (this.y + this.yIncrement < 0) {
                 this.yIncrement = this.yIncrement * -1;
             }
