@@ -71,12 +71,14 @@
     const points = [];
     const trail = [];
     const trailLength = 50;
+    let hueAngle = 0;
 
     function nextStep() {
         if (points.length > 0) {
             const path = [];
             ctx.lineWidth = 1;
-            ctx.strokeStyle = points[0].color;
+            hueAngle = (hueAngle + 1) % 360;
+            ctx.strokeStyle = `hsl(${hueAngle}, 100%, 50%)`;
             ctx.beginPath();
             ctx.moveTo(points[0].x, points[0].y);
             points.forEach(p => {
