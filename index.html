@@ -65,6 +65,7 @@
         hueAngle = 0;
         startX = null;
         startY = null;
+        scaleFactor = 7;
 
         constructor(canvasElement) {
             this.canvasElement = canvasElement;
@@ -103,8 +104,8 @@
                 new Point({
                     x: e.x,
                     y: e.y,
-                    xIncrement: (this.startX - e.x) / 7,
-                    yIncrement: (this.startY - e.y) / 7,
+                    xIncrement: (this.startX - e.x) / this.scaleFactor,
+                    yIncrement: (this.startY - e.y) / this.scaleFactor,
                     maxX: this.canvasWidth,
                     maxY: this.canvasHeight,
                 })
