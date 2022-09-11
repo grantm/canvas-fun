@@ -19,15 +19,12 @@
 
   <script type="application/javascript">
 
-    "use strict";
-
     class Point {
-        constructor(x, y, xIncrement, yIncrement, color, maxX, maxY) {
+        constructor({x, y, xIncrement, yIncrement, maxX, maxY}) {
             this.x = x;
             this.y = y;
             this.xIncrement = xIncrement;
             this.yIncrement = yIncrement;
-            this.color = color;
             this.maxX = maxX;
             this.maxY = maxY;
         }
@@ -102,10 +99,16 @@
         }
 
         mouseUpHandler(e) {
-            const xDiff = (this.startX - e.x) / 7;
-            const yDiff = (this.startY - e.y) / 7;
-            const p = new Point(e.x, e.y, xDiff, yDiff, "#ff0000", this.canvasWidth, this.canvasHeight);
-            this.points.push(p);
+            this.points.push(
+                new Point({
+                    x: e.x,
+                    y: e.y,
+                    xIncrement: (this.startX - e.x) / 7,
+                    yIncrement: (this.startY - e.y) / 7,
+                    maxX: this.canvasWidth,
+                    maxY: this.canvasHeight,
+                })
+            );
         }
 
         drawNextLine() {
@@ -140,10 +143,10 @@
     }
 
     const canvas = document.getElementById("app-canvas");
-    const canvasManager = new CanvasManager(canvas);
+    const manager = new CanvasManager(canvas);
 
     function drawOneFrame() {
-         canvasManager.drawNextLine();
+         manager.drawNextLine();
          window.requestAnimationFrame(drawOneFrame);
     }
 
