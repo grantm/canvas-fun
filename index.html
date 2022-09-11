@@ -46,13 +46,7 @@
         y = y + yIncrement;
     }
 
-    function keyDownHandler(e) {
-        if (e.key === "n") {
-            drawNextDot();
-        }
-    }
-
-    window.addEventListener("keydown", keyDownHandler);
+    setInterval(drawNextDot, 100);
 
   </script>
 
