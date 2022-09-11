@@ -75,6 +75,7 @@
     function nextStep() {
         if (points.length > 0) {
             const path = [];
+            ctx.lineWidth = 1;
             ctx.strokeStyle = points[0].color;
             ctx.beginPath();
             ctx.moveTo(points[0].x, points[0].y);
@@ -87,6 +88,7 @@
             trail.push(path);
             if (trail.length > trailLength) {
                 const lastPath = trail.shift();
+                ctx.lineWidth = 2;
                 ctx.strokeStyle = "#000000";
                 ctx.beginPath();
                 ctx.moveTo(lastPath[0].x, lastPath[0].y);
