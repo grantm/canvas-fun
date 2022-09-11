@@ -41,12 +41,6 @@
             this.color = color;
         }
 
-        drawNextDot () {
-            ctx.fillStyle = this.color;
-            ctx.fillRect(this.x, this.y, 2, 2);
-            this.nextStep();
-        }
-
         nextStep () {
             this.incrementX();
             this.incrementY();
@@ -77,9 +71,16 @@
     const points = [];
 
     function nextStep() {
-        points.forEach(p => {
-            p.drawNextDot();
-        });
+        if (points.length > 0) {
+            ctx.strokeStyle = points[0].color;
+            ctx.beginPath();
+            ctx.moveTo(points[0].x, points[0].y);
+            points.forEach(p => {
+                ctx.lineTo(p.x, p.y);
+                p.nextStep();
+            });
+            ctx.stroke();
+        }
         window.requestAnimationFrame(nextStep);
     }
 
