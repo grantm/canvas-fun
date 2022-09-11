@@ -19,26 +19,17 @@
 
   <script type="application/javascript">
 
-    const rect = window.document.documentElement.getBoundingClientRect();
-    const canvasWidth = rect.width;
-    const canvasHeight = rect.height;
-
-    const canvas = document.getElementById("app-canvas");
-    canvas.width = canvasWidth;
-    canvas.height = canvasHeight;
-
-    const ctx = canvas.getContext("2d");
-
-    ctx.fillStyle = "#000000";
-    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    "use strict";
 
     class Point {
-        constructor(x, y, xIncrement, yIncrement, color) {
+        constructor(x, y, xIncrement, yIncrement, color, maxX, maxY) {
             this.x = x;
             this.y = y;
             this.xIncrement = xIncrement;
             this.yIncrement = yIncrement;
             this.color = color;
+            this.maxX = maxX;
+            this.maxY = maxY;
         }
 
         nextStep () {
@@ -50,7 +41,7 @@
             if (this.x + this.xIncrement < 0) {
                 this.xIncrement = this.xIncrement * -1;
             }
-            if (this.x + this.xIncrement >= canvasWidth) {
+            if (this.x + this.xIncrement >= this.maxX) {
                 this.xIncrement = this.xIncrement * -1;
             }
             this.x = this.x + this.xIncrement;
@@ -60,7 +51,7 @@
             if (this.y + this.yIncrement < 0) {
                 this.yIncrement = this.yIncrement * -1;
             }
-            if (this.y + this.yIncrement >= canvasHeight) {
+            if (this.y + this.yIncrement >= this.maxY) {
                 this.yIncrement = this.yIncrement * -1;
             }
             this.y = this.y + this.yIncrement;
@@ -68,60 +59,95 @@
 
     }
 
-    const points = [];
-    const trail = [];
-    const trailLength = 50;
-    let hueAngle = 0;
 
-    function nextStep() {
-        if (points.length > 0) {
-            const path = [];
-            ctx.lineWidth = 1;
-            hueAngle = (hueAngle + 1) % 360;
-            ctx.strokeStyle = `hsl(${hueAngle}, 100%, 50%)`;
-            ctx.beginPath();
-            ctx.moveTo(points[0].x, points[0].y);
-            points.forEach(p => {
-                ctx.lineTo(p.x, p.y);
-                path.push({x: p.x, y: p.y});
-                p.nextStep();
-            });
-            ctx.stroke();
-            trail.push(path);
-            if (trail.length > trailLength) {
-                const lastPath = trail.shift();
-                ctx.lineWidth = 2;
-                ctx.strokeStyle = "#000000";
-                ctx.beginPath();
-                ctx.moveTo(lastPath[0].x, lastPath[0].y);
-                lastPath.forEach(p => {
-                    ctx.lineTo(p.x, p.y);
+    class CanvasManager {
+        canvasBackground = "#000000";
+        points = [];
+        trail = [];
+        maxTrailLength = 50;
+        hueAngle = 0;
+        startX = null;
+        startY = null;
+
+        constructor(canvasElement) {
+            this.canvasElement = canvasElement;
+            this.ctx = canvas.getContext("2d");
+            this.setCanvasSize();
+            this.setCanvasBackground();
+            this.addMouseHandlers();
+            this.drawNextLine();
+        }
+
+        setCanvasSize() {
+            const rect = window.document.documentElement.getBoundingClientRect();
+            this.canvasWidth = rect.width;
+            this.canvasHeight = rect.height;
+            this.canvasElement.width = this.canvasWidth;
+            this.canvasElement.height = this.canvasHeight;
+        }
+
+        setCanvasBackground() {
+            this.ctx.fillStyle = this.canvasBackground;
+            this.ctx.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
+        }
+
+        addMouseHandlers() {
+            canvas.addEventListener("mousedown", e => this.mouseDownHandler(e));
+            canvas.addEventListener("mouseup", e => this.mouseUpHandler(e));
+        }
+
+        mouseDownHandler(e) {
+            this.startX = e.x;
+            this.startY = e.y;
+        }
+
+        mouseUpHandler(e) {
+            const xDiff = (this.startX - e.x) / 7;
+            const yDiff = (this.startY - e.y) / 7;
+            const p = new Point(e.x, e.y, xDiff, yDiff, "#ff0000", this.canvasWidth, this.canvasHeight);
+            this.points.push(p);
+        }
+
+        drawNextLine() {
+            if (this.points.length > 0) {
+                const path = [];
+                this.ctx.lineWidth = 1;
+                this.hueAngle = (this.hueAngle + 1) % 360;
+                this.ctx.strokeStyle = `hsl(${this.hueAngle}, 100%, 50%)`;
+                this.ctx.beginPath();
+                this.ctx.moveTo(this.points[0].x, this.points[0].y);
+                this.points.forEach(p => {
+                    this.ctx.lineTo(p.x, p.y);
+                    path.push({x: p.x, y: p.y});
+                    p.nextStep();
                 });
-                ctx.stroke();
+                this.ctx.stroke();
+                this.trail.push(path);
+                if (this.trail.length > this.maxTrailLength) {
+                    const lastPath = this.trail.shift();
+                    this.ctx.lineWidth = 2;
+                    this.ctx.strokeStyle = "#000000";
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(lastPath[0].x, lastPath[0].y);
+                    lastPath.forEach(p => {
+                        this.ctx.lineTo(p.x, p.y);
+                    });
+                    this.ctx.stroke();
+                }
             }
         }
-        window.requestAnimationFrame(nextStep);
+
     }
 
-    nextStep();
+    const canvas = document.getElementById("app-canvas");
+    const canvasManager = new CanvasManager(canvas);
 
-    let startX = null;
-    let startY = null;
-
-    function mouseDownHandler(e) {
-        startX = e.x;
-        startY = e.y;
+    function drawOneFrame() {
+         canvasManager.drawNextLine();
+         window.requestAnimationFrame(drawOneFrame);
     }
 
-    function mouseUpHandler(e) {
-        const xDiff = (startX - e.x) / 7;
-        const yDiff = (startY - e.y) / 7;
-        const p = new Point(e.x, e.y, xDiff, yDiff, "#ff0000");
-        points.push(p);
-    }
-
-    canvas.addEventListener("mousedown", mouseDownHandler);
-    canvas.addEventListener("mouseup", mouseUpHandler);
+    drawOneFrame();
 
   </script>
 
