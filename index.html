@@ -70,6 +70,7 @@
 
     const points = [];
     const trail = [];
+    const trailLength = 50;
 
     function nextStep() {
         if (points.length > 0) {
@@ -84,7 +85,7 @@
             });
             ctx.stroke();
             trail.push(path);
-            if (trail.length > 10) {
+            if (trail.length > trailLength) {
                 const lastPath = trail.shift();
                 ctx.strokeStyle = "#000000";
                 ctx.beginPath();
