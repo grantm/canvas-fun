@@ -69,17 +69,31 @@
     }
 
     const points = [];
+    const trail = [];
 
     function nextStep() {
         if (points.length > 0) {
+            const path = [];
             ctx.strokeStyle = points[0].color;
             ctx.beginPath();
             ctx.moveTo(points[0].x, points[0].y);
             points.forEach(p => {
                 ctx.lineTo(p.x, p.y);
+                path.push({x: p.x, y: p.y});
                 p.nextStep();
             });
             ctx.stroke();
+            trail.push(path);
+            if (trail.length > 10) {
+                const lastPath = trail.shift();
+                ctx.strokeStyle = "#000000";
+                ctx.beginPath();
+                ctx.moveTo(lastPath[0].x, lastPath[0].y);
+                lastPath.forEach(p => {
+                    ctx.lineTo(p.x, p.y);
+                });
+                ctx.stroke();
+            }
         }
         window.requestAnimationFrame(nextStep);
     }
