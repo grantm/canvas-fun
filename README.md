@@ -37,6 +37,7 @@ More detailed documentation for things this project touches on:
 * [Array properties & methods](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) (length, push pop, shift, ...)
 * [Javascript Classes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes)
 * [Window.requestAnimationFrame()](https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame)
+* [RGB color mixer](https://github.com/grantm/rgb-colour-mixer)
 * [HSL color values](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/hsl)
 
 ## Ideas for variations and next steps
